@@ -23,6 +23,7 @@ if (!PRIVATE_KEY_JWK) throw new Error("PRIVATE_KEY_JWK is not set in .env");
 
 export const oauth = new OAuthClient({
     metadata: {
+        client_name: "Crystal",
         client_id: `${PUBLIC_URL}/oauth-client-metadata.json`,
         redirect_uris: [`${PUBLIC_URL}/callback`],
 
