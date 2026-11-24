@@ -1,6 +1,9 @@
 import { For, Show } from "solid-js";
-import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atcute/bluesky";
+import { useSubmission } from "@solidjs/router";
 import { MdFillComment, MdFillFavorite, MdFillLoop } from "solid-icons/md";
+import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atcute/bluesky";
+
+import { sendLike } from "~/lib/bsky";
 
 type FeedItem = AppBskyFeedDefs.FeedViewPost;
 
@@ -32,6 +35,17 @@ export default function PostCard(props: { item: FeedItem }) {
   const post = () => props.item.post;
   const author = () => post().author;
   const reason = () => props.item.reason;
+
+  const likeSubmission = useSubmission(sendLike);
+
+  const handleLike = async () => {
+    const formData = new FormData();
+
+    formData.set("uri", post().uri);
+    formData.set("cid", post().cid);
+
+    await sendLike(formData);
+  }
 
   const images = (): AppBskyEmbedImages.ViewImage[] => {
     const embed = post().embed;
@@ -108,11 +122,17 @@ export default function PostCard(props: { item: FeedItem }) {
 
       <footer>
         <small>
-          <MdFillComment /> {post().replyCount ?? 0}
+          <button>
+            <MdFillComment /> {post().replyCount ?? 0}
+          </button>
           &nbsp;
-          <MdFillLoop /> {post().repostCount ?? 0}
+          <button>
+            <MdFillLoop /> {post().repostCount ?? 0}
+          </button>
           &nbsp;
-          <MdFillFavorite /> {post().likeCount ?? 0}
+          <button onClick={handleLike} disabled={likeSubmission.pending}>
+            <MdFillFavorite /> {post().likeCount ?? 0}
+          </button>
         </small>
       </footer>
     </article>

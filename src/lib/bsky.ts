@@ -5,7 +5,8 @@ import {
     getCurrentProfile,
     getTimeline,
     getAuthorFeed,
-    createPost
+    createPost,
+    likePost
 } from "~/server/api";
 
 export const getAuthProfile = query(async () => {
@@ -36,3 +37,14 @@ export const sendPost = action(async (formData: FormData) => {
 
     return await createPost(text);
 }, "bsky-create-post");
+
+export const sendLike = action(async (formData: FormData) => {
+    "use server";
+
+    const uri = String(formData.get("uri") ?? "");
+    const cid = String(formData.get("cid") ?? "");
+
+    if (!uri || !cid) throw new Error("Missing AT URI or CID");
+
+    return await likePost(uri, cid);
+});
