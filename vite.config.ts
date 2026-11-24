@@ -8,10 +8,6 @@ export default defineConfig({
   plugins: [
     solidStart(),
     nitro(),
-    netlify({
-      build: {
-        enabled: true
-      }
-    })
+    netlify()
   ]
 });
