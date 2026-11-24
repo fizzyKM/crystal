@@ -1,5 +1,5 @@
 import { For, Show } from "solid-js";
-import { useSubmission } from "@solidjs/router";
+import { useAction, useSubmission } from "@solidjs/router";
 import { MdFillComment, MdFillFavorite, MdFillLoop } from "solid-icons/md";
 import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atcute/bluesky";
 
@@ -35,7 +35,7 @@ export default function PostCard(props: { item: FeedItem }) {
   const post = () => props.item.post;
   const author = () => post().author;
   const reason = () => props.item.reason;
-
+  const like = useAction(sendLike);
   const likeSubmission = useSubmission(sendLike);
 
   const handleLike = async () => {
@@ -44,7 +44,7 @@ export default function PostCard(props: { item: FeedItem }) {
     formData.set("uri", post().uri);
     formData.set("cid", post().cid);
 
-    await sendLike(formData);
+    await like(formData);
   }
 
   const images = (): AppBskyEmbedImages.ViewImage[] => {
