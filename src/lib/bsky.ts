@@ -6,7 +6,8 @@ import {
     getTimeline,
     getAuthorFeed,
     createPost,
-    likePost
+    likePost,
+    repost
 } from "~/server/api";
 
 export const getAuthProfile = query(async () => {
@@ -47,4 +48,15 @@ export const sendLike = action(async (formData: FormData) => {
     if (!uri || !cid) throw new Error("Missing AT URI or CID");
 
     return await likePost(uri, cid);
+});
+
+export const sendRepost = action(async (formData: FormData) => {
+    "use server";
+
+    const uri = String(formData.get("uri") ?? "");
+    const cid = String(formData.get("cid") ?? "");
+
+    if (!uri || !cid) throw new Error("Missing AT URI or CID");
+
+    return await repost(uri, cid);
 });

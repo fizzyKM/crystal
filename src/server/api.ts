@@ -154,3 +154,28 @@ export async function likePost(uri: string, cid: string) {
 
     return res.data;
 }
+
+export async function repost(uri: string, cid: string) {
+    const ctx = await createAuthenticatedClient();
+
+    if (!ctx) throw new Error("Not authenticated");
+
+    const res = await ctx.client.post("com.atproto.repo.createRecord", {
+        input: {
+            repo: ctx.did,
+            collection: "app.bsky.feed.repost",
+            record: {
+                $type: "app.bsky.feed.repost",
+                subject: {
+                    uri: uri,
+                    cid: cid
+                },
+                createdAt: new Date().toISOString()
+            }
+        }
+    });
+
+    if (!res.ok) throw new Error(res.data.error);
+
+    return res.data;
+}
