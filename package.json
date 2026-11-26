@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@atcute/atproto": "^4.0.5",
+    "@atcute/bluemoji": "^4.0.2",
     "@atcute/bluesky": "^4.0.27",
     "@atcute/client": "^5.1.2",
     "@atcute/identity-resolver": "^2.0.3",

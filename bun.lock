@@ -6,6 +6,7 @@
       "name": "crystal",
       "dependencies": {
         "@atcute/atproto": "^4.0.5",
+        "@atcute/bluemoji": "^4.0.2",
         "@atcute/bluesky": "^4.0.27",
         "@atcute/client": "^5.1.2",
         "@atcute/identity-resolver": "^2.0.3",
@@ -28,6 +29,8 @@
   },
   "packages": {
     "@atcute/atproto": ["@atcute/atproto@4.0.5", "", { "dependencies": { "@atcute/lexicons": "^2.1.1" } }, "sha512-Xs+lez1RxkX0PHwm49z5lxbeC2qg24be3OkK//eE/vYdTSk/i6wUVw69yA3q9m4FpypEaBbqy5GabAV09480Qg=="],
+
+    "@atcute/bluemoji": ["@atcute/bluemoji@4.0.2", "", { "dependencies": { "@atcute/atproto": "^4.0.3", "@atcute/bluesky": "^4.0.12", "@atcute/lexicons": "^2.0.2" } }, "sha512-CjEyXDu05ap/EBg7/QyDsd9xHmYLzhhIqrQwxnPPuBt2ZPZ6HL40kAdQcQNAn+9a3Kdncqs7nquwAJKBOXSRoQ=="],
 
     "@atcute/bluesky": ["@atcute/bluesky@4.0.27", "", { "dependencies": { "@atcute/atproto": "^4.0.5", "@atcute/lexicons": "^2.1.1" } }, "sha512-vG6AnhcHXHiiAitSYAL1rbTthUIRjOtRI5VBtjBgbaXhhvXVxKfLGkcNYNXuETzkkFbQ8JQfWasTOgcQKAMRcQ=="],
 
