@@ -1,9 +1,10 @@
 import { For, Show } from "solid-js";
 import { useAction, useSubmission } from "@solidjs/router";
 import { MdFillComment, MdFillFavorite, MdFillLoop } from "solid-icons/md";
-import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atcute/bluesky";
+import type { AppBskyFeedDefs, AppBskyEmbedImages, AppBskyRichtextFacet } from "@atcute/bluesky";
 
 import { sendLike, sendRepost } from "~/lib/bsky";
+import RichText from "~/components/RichText";
 
 type FeedItem = AppBskyFeedDefs.FeedViewPost;
 
@@ -13,6 +14,19 @@ function getPostText(record: unknown): string {
   }
 
   return "";
+}
+
+function getPostFacets(record: unknown): AppBskyRichtextFacet.Main[] | undefined {
+  if (
+    record &&
+    typeof record === "object" &&
+    "facets" in record &&
+    Array.isArray((record as { facets?: unknown }).facets)
+  ) {
+    return (record as { facets: AppBskyRichtextFacet.Main[] }).facets;
+  }
+
+  return undefined;
 }
 
 function getCreatedAt(record: unknown): string {
@@ -31,7 +45,7 @@ function getCreatedAt(record: unknown): string {
   return "";
 }
 
-export default function PostCard(props: { item: FeedItem }) {
+export default function PostCard(props: { item: FeedItem; }) {
   const post = () => props.item.post;
   const author = () => post().author;
   const reason = () => props.item.reason;
@@ -102,7 +116,7 @@ export default function PostCard(props: { item: FeedItem }) {
         </Show>
       </header>
 
-      <p>{getPostText(post().record)}</p>
+      <RichText text={getPostText(post().record)} facets={getPostFacets(post().record)} />
 
       <Show when={images().length > 0}>
         <div style={{
