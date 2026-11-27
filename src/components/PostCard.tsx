@@ -1,6 +1,6 @@
 import { For, Show } from "solid-js";
 import { useAction, useSubmission } from "@solidjs/router";
-import { MdFillComment, MdFillFavorite, MdFillLoop } from "solid-icons/md";
+import { MdFillBookmark, MdFillComment, MdFillFavorite, MdFillLoop } from "solid-icons/md";
 import type { AppBskyFeedDefs, AppBskyEmbedImages, AppBskyRichtextFacet } from "@atcute/bluesky";
 
 import { sendLike, sendRepost } from "~/lib/bsky";
@@ -157,6 +157,10 @@ export default function PostCard(props: { item: FeedItem; }) {
           &nbsp;
           <button onClick={handleLike} disabled={likeSubmission.pending}>
             <MdFillFavorite /> {post().likeCount ?? 0}
+          </button>
+          &nbsp;
+          <button>
+            <MdFillBookmark /> {post().bookmarkCount ?? 0}
           </button>
         </small>
       </footer>
