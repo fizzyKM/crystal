@@ -40,7 +40,10 @@ export const oauth = new OAuthClient({
                 lxm: [
                     "app.bsky.actor.getProfile",
                     "app.bsky.feed.getTimeline",
-                    "app.bsky.feed.getAuthorFeed"
+                    "app.bsky.feed.getAuthorFeed",
+                    "app.bsky.bookmark.createBookmark",
+                    "app.bsky.bookmarks.deleteBookmark",
+                    "app.bsky.bookmark.getBookmarks"
                 ],
                 aud: "*"
             }),

@@ -269,3 +269,20 @@ export async function repost(uri: string, cid: string) {
 
     return res.data;
 }
+
+export async function bookmark(uri: string, cid: string) {
+    const ctx = await createAuthenticatedClient();
+
+    if (!ctx) throw new Error("Not authenticated");
+
+    const res = await ctx.client.post("app.bsky.bookmark.createBookmark", {
+        input: {
+            uri: uri,
+            cid: cid
+        }
+    });
+
+    if (!res.ok) throw new Error(res.data.error);
+
+    return res.data;
+}

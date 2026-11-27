@@ -3,7 +3,7 @@ import { useAction, useSubmission } from "@solidjs/router";
 import { MdFillBookmark, MdFillComment, MdFillFavorite, MdFillLoop } from "solid-icons/md";
 import type { AppBskyFeedDefs, AppBskyEmbedImages, AppBskyRichtextFacet } from "@atcute/bluesky";
 
-import { sendLike, sendRepost } from "~/lib/bsky";
+import { sendLike, sendRepost, sendBookmark } from "~/lib/bsky";
 import RichText from "~/components/RichText";
 
 type FeedItem = AppBskyFeedDefs.FeedViewPost;
@@ -53,6 +53,8 @@ export default function PostCard(props: { item: FeedItem; }) {
   const likeSubmission = useSubmission(sendLike);
   const repost = useAction(sendRepost);
   const repostSubmission = useSubmission(sendRepost);
+  const bookmark = useAction(sendBookmark);
+  const bookmarkSubmission = useSubmission(sendBookmark);
 
   const handleLike = async () => {
     const formData = new FormData();
@@ -70,6 +72,15 @@ export default function PostCard(props: { item: FeedItem; }) {
     formData.set("cid", post().cid);
 
     await repost(formData);
+  }
+
+  const handleBookmark = async () => {
+    const formData = new FormData();
+
+    formData.set("uri", post().uri);
+    formData.set("cid", post().cid);
+
+    await bookmark(formData);
   }
 
   const images = (): AppBskyEmbedImages.ViewImage[] => {
@@ -159,7 +170,7 @@ export default function PostCard(props: { item: FeedItem; }) {
             <MdFillFavorite /> {post().likeCount ?? 0}
           </button>
           &nbsp;
-          <button>
+          <button onClick={handleBookmark} disabled={bookmarkSubmission.pending}>
             <MdFillBookmark /> {post().bookmarkCount ?? 0}
           </button>
         </small>

@@ -7,7 +7,8 @@ import {
     getAuthorFeed,
     createPost,
     likePost,
-    repost
+    repost,
+    bookmark
 } from "~/server/api";
 
 export const getAuthProfile = query(async () => {
@@ -48,7 +49,7 @@ export const sendLike = action(async (formData: FormData) => {
     if (!uri || !cid) throw new Error("Missing AT URI or CID");
 
     return await likePost(uri, cid);
-});
+}, "bsky-like");
 
 export const sendRepost = action(async (formData: FormData) => {
     "use server";
@@ -59,4 +60,15 @@ export const sendRepost = action(async (formData: FormData) => {
     if (!uri || !cid) throw new Error("Missing AT URI or CID");
 
     return await repost(uri, cid);
-});
+}, "bsky-repost");
+
+export const sendBookmark = action(async (formData: FormData) => {
+    "use server";
+
+    const uri = String(formData.get("uri") ?? "");
+    const cid = String(formData.get("cid") ?? "");
+
+    if (!uri || !cid) throw new Error("Missing AT URI or CID");
+
+    return await bookmark(uri, cid);
+}, "bsky-bookmark");
